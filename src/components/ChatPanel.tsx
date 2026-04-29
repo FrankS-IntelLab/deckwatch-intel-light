@@ -22,6 +22,7 @@ export default function ChatPanel({ repos, label }: { repos: GitHubRepo[]; label
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { addEntry } = useHistory();
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
@@ -49,33 +50,34 @@ export default function ChatPanel({ repos, label }: { repos: GitHubRepo[]; label
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-3 space-y-2 min-h-0">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-3 space-y-2 min-h-0">
         {messages.length === 0 && (
-          <p className="text-text-muted text-xs text-center py-4">// ask me anything about the current feed</p>
+          <p className="text-text-muted text-xs sm:text-xs text-center py-4">// ask me anything about the current feed</p>
         )}
         {messages.map((m, i) => (
           <div key={i} className={`text-sm ${m.role === 'user' ? 'text-right' : ''}`}>
-            <div className={`inline-block max-w-[85%] px-3 py-2 rounded text-left ${
+            <div className={`inline-block max-w-[90%] sm:max-w-[85%] px-3 py-2 rounded text-left ${
               m.role === 'user' ? 'bg-neon-cyan/10 border border-neon-cyan/20' : 't-surface t-border border'
             }`}>
-              <p className="whitespace-pre-wrap text-xs leading-relaxed">{m.content}</p>
+              <p className="whitespace-pre-wrap text-sm sm:text-xs leading-relaxed">{m.content}</p>
             </div>
           </div>
         ))}
-        {loading && <div className="text-neon-cyan text-xs animate-pulse">◌ processing...</div>}
-        {error && <div className="text-red-600 text-xs border border-red-300 rounded px-3 py-2">⚠ {error}</div>}
+        {loading && <div className="text-neon-cyan text-xs sm:text-xs animate-pulse">◌ processing...</div>}
+        {error && <div className="text-red-600 text-xs sm:text-xs border border-red-300 rounded px-3 py-2">⚠ {error}</div>}
         <div ref={bottomRef} />
       </div>
-      <div className="t-border border-t p-2 flex gap-2 shrink-0">
+      <div className="t-border border-t p-2 sm:p-2 flex gap-2 shrink-0">
         <input
+          ref={inputRef}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
           placeholder="Ask about the feed..."
-          className="flex-1 t-surface t-border border rounded px-3 py-1.5 text-xs focus:outline-none focus:border-neon-cyan/50"
+          className="flex-1 t-surface t-border border rounded px-3 py-3 sm:py-1.5 text-sm sm:text-xs focus:outline-none focus:border-neon-cyan/50"
         />
         <button onClick={send} disabled={loading || !input.trim()}
-          className="px-3 py-1.5 text-xs text-neon-cyan border border-neon-cyan/30 rounded bg-neon-cyan/10 hover:bg-neon-cyan/20 transition-colors disabled:opacity-40"
+          className="px-4 py-3 sm:px-3 sm:py-1.5 text-sm sm:text-xs text-neon-cyan border border-neon-cyan/30 rounded bg-neon-cyan/10 hover:bg-neon-cyan/20 transition-colors disabled:opacity-40 min-w-[60px] sm:min-w-0"
         >Send</button>
       </div>
     </div>

@@ -132,3 +132,43 @@ body::after {
 .prose-cyber hr { border: none; border-top: 1px solid var(--color-lite-border); margin: 0.8em 0; }
 .theme-dark .prose-cyber hr { border-color: var(--color-dark-border); }
 .prose-cyber blockquote { border-left: 3px solid var(--color-neon-cyan); padding-left: 0.8em; margin: 0.5em 0; color: var(--color-text-muted); }
+
+/* ===== Mobile Improvements ===== */
+/* Ensure touch targets are at least 44x44px on mobile */
+@media (max-width: 640px) {
+  /* Prevent zoom on input focus (iOS Safari) */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Better scrolling on mobile */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Hide scanlines on mobile for better readability */
+  body::after {
+    display: none;
+  }
+  
+  /* Larger tap targets for interactive elements */
+  button {
+    min-height: 44px;
+  }
+  
+  /* Better spacing for panels */
+  .t-card {
+    border-radius: 8px;
+  }
+}
+
+/* Smooth transitions for interactive elements */
+button, a, input, select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure proper viewport scaling */
+@viewport {
+  width: device-width;
+  initial-scale: 1.0;
+}
